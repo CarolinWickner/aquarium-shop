@@ -23,10 +23,9 @@ class FishType {
         $overlapCount = count(array_intersect($phRange1, $phRange2));
 
         if (($overlapCount > 0) && ($this->character == $fishType->character)) {
-            echo $this->name." can live together with ".$fishType->name.PHP_EOL;
-        } else {
-            echo $this->name." and ".$fishType->name." should not live together".PHP_EOL;
+            return true;
         }
+        return false;
     }
 }
 
@@ -79,6 +78,6 @@ $aquarium3 = new Aquarium();
 $aquarium3->setCapacity(25);
 $aquarium3->addFish($fancyGuppy, 3);
 
-$angelfish->canLiveTogether($fancyGuppy);
-$angelfish->canLiveTogether($jewelCichlid);
-$lionheadCichlid->canLiveTogether($cherryBarb);
+var_dump($angelfish->canLiveTogether($fancyGuppy));
+var_dump($angelfish->canLiveTogether($jewelCichlid));
+var_dump($lionheadCichlid->canLiveTogether($cherryBarb));
