@@ -4,16 +4,38 @@ declare(strict_types=1);
 class FishType {
     private $name;
 
-    public function __construct(string $name) {
+    private $character;
+
+    private $phMin;
+
+    private $phMax;
+
+    public function __construct(string $name, string $character, float $phMin, float $phMax) {
         $this->name = $name;
+        $this->character = $character;
+        $this->phMin = $phMin;
+        $this->phMax = $phMax;
+    }
+
+    public function canLiveTogether(FishType $fishType) {
+        $phRange1 = range($this->phMin, $this->phMax, $step = 0.1);
+        $phRange2 = range($fishType->phMin, $fishType->phMax, $step =0.1);
+        $overlapCount = count(array_intersect($phRange1, $phRange2));
+
+        if (($overlapCount > 0) && ($this->character == $fishType->character)) {
+            echo $this->name." can live together with ".$fishType->name.PHP_EOL;
+        } else {
+            echo $this->name." and ".$fishType->name." should not live together".PHP_EOL;
+        }
     }
 }
 
-$angelfish = new FishType('Angelfish');
-$fancyGuppy = new FishType('Fancy Guppy');
-$jewelCichlid = new FishType('Jewel Cichlid');
-$kribensis = new FishType('Kribensis');
-$lionheadCichlid = new Fishtype('Lionhead Cichlid');
+$angelfish = new FishType('Angelfish', 'peaceful', 6.5, 7.1);
+$fancyGuppy = new FishType('Fancy Guppy', 'peaceful', 6.8, 7.8);
+$jewelCichlid = new FishType('Jewel Cichlid', 'aggressive', 6.5, 7.5);
+$kribensis = new FishType('Kribensis', 'aggressive', 6, 8);
+$lionheadCichlid = new Fishtype('Lionhead Cichlid', 'aggressive', 6.6, 8);
+$cherryBarb = new Fishtype('Cherry Barb', 'aggressive', 6, 6.5);
 
 class FishInAquarium {
     private $fishType;
@@ -27,9 +49,6 @@ class FishInAquarium {
 }
 
 class Aquarium {
-    /**
-    * @var int 
-    */
     private $capacity;
 
     /**
@@ -49,16 +68,17 @@ class Aquarium {
 $aquarium1 = new Aquarium();
 $aquarium1->setCapacity(100);
 $aquarium1->addFish($angelfish, 10);
-var_dump($aquarium1);
 
 $aquarium2 = new Aquarium();
 $aquarium2->setCapacity(60);
 $aquarium2->addFish($jewelCichlid, 5);
 $aquarium2->addFish($kribensis, 10);
 $aquarium2->addFish($lionheadCichlid, 2);
-var_dump($aquarium2);
 
 $aquarium3 = new Aquarium();
 $aquarium3->setCapacity(25);
 $aquarium3->addFish($fancyGuppy, 3);
-var_dump($aquarium3);
+
+$angelfish->canLiveTogether($fancyGuppy);
+$angelfish->canLiveTogether($jewelCichlid);
+$lionheadCichlid->canLiveTogether($cherryBarb);
