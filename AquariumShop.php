@@ -20,11 +20,11 @@ class FishType {
         $this->cost = $cost;
     }
 
-    public function getCost() {
+    public function getCost() : float{
         return $this->cost;
     }
 
-    public function canLiveTogether(FishType $fishType) {
+    public function canLiveTogether(FishType $fishType) : bool {
         $phRange1 = range($this->phMin, $this->phMax, $step = 0.1);
         $phRange2 = range($fishType->phMin, $fishType->phMax, $step =0.1);
         $overlapCount = count(array_intersect($phRange1, $phRange2));
@@ -53,11 +53,11 @@ class FishInAquarium {
         $this->amount = $amount;
     }
 
-    public function getAmount() {
+    public function getAmount() : int{
         return $this->amount;
     }
 
-    public function getFishType() {
+    public function getFishType() : FishType {
         return $this->fishType;
     }
 }
@@ -78,16 +78,12 @@ class Aquarium {
         $this->fishInAquarium = array();
     }
 
-    public function addFish(FishType $fishType, int $amount) {
+    public function addFish(FishType $fishType, int $amount) : void {
         $this->fishInAquarium[] = new FishInAquarium($fishType, $amount);
     }
 
-    public function getCost() {
-        return $this->cost;
-    }
-
-    public function getSalePrice() {
-        $costOfAquarium = $this->getCost();
+    public function getSalePrice() : float {
+        $costOfAquarium = $this->cost;
         $totalCostOfFish = 0;
         foreach($this->fishInAquarium as $singleFishType) {
             $totalCostOfFish += $singleFishType->getFishType()->getCost() * $singleFishType->getAmount();
