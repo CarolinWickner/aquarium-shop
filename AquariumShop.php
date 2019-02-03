@@ -62,6 +62,29 @@ class FishInAquarium {
     }
 }
 
+class Gadget {
+    private $name;
+
+    public function __construct(string $name) {
+        $this->name = $name;
+    }
+}
+
+class WaterMeasuringGadget extends Gadget {
+}
+
+class WaterExchangeGadget extends Gadget {
+}
+
+class WaterAbsorbGadget extends Gadget {
+}
+
+$measuringCup = new WaterMeasuringGadget('Measuring cup');
+$lengthOfVinylTubing =  new WaterExchangeGadget('Length of vinyl tubing');
+$chamois = new WaterAbsorbGadget('Chamois');
+
+$gadgets = array($measuringCup, $lengthOfVinylTubing, $chamois);
+
 class Aquarium {
     private $capacity;
 
@@ -72,14 +95,24 @@ class Aquarium {
     */
     private $fishInAquarium;
 
+    /**
+    * @var Gadget[]
+    */
+    private $gadgets;
+
     public function __construct(int $capacity, float $cost) {
         $this->capacity = $capacity;
         $this->cost = $cost;
         $this->fishInAquarium = array();
+        $this->gadgets = array();
     }
 
     public function addFish(FishType $fishType, int $amount) : void {
         $this->fishInAquarium[] = new FishInAquarium($fishType, $amount);
+    }
+
+    public function addGadget(Gadget $gadget) : void {
+        $this->gadgets[] = $gadget;
     }
 
     public function getSalePrice() : float {
@@ -97,14 +130,20 @@ class Aquarium {
 
 $aquarium1 = new Aquarium(100, 400);
 $aquarium1->addFish($angelfish, 10);
+$aquarium1->addGadget($gadgets[rand(0, sizeOf($gadgets)-1)]);
+var_dump($aquarium1);
 
 $aquarium2 = new Aquarium(60, 250);
 $aquarium2->addFish($jewelCichlid, 5);
 $aquarium2->addFish($kribensis, 10);
 $aquarium2->addFish($lionheadCichlid, 2);
+$aquarium2->addGadget($gadgets[rand(0, sizeOf($gadgets)-1)]);
+var_dump($aquarium2);
 
 $aquarium3 = new Aquarium(25, 90);
 $aquarium3->addFish($fancyGuppy, 3);
+$aquarium3->addGadget($gadgets[rand(0, sizeOf($gadgets)-1)]);
+var_dump($aquarium3);
 
 var_dump($angelfish->canLiveTogether($fancyGuppy));
 var_dump($angelfish->canLiveTogether($jewelCichlid));
