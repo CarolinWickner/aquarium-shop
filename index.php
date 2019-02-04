@@ -138,7 +138,7 @@ class Aquarium implements JsonSerializable {
     }
 }
 
-#1st Task: Preconfigured aquarium with fish
+#1st task: Preconfigured aquarium with fish
 $angelfish = new FishType('Angelfish', 'peaceful', 6.5, 7.1, 5);
 $fancyGuppy = new FishType('Fancy Guppy', 'peaceful', 6.8, 7.8, 3);
 $jewelCichlid = new FishType('Jewel Cichlid', 'aggressive', 6.5, 7.5, 7.5);
@@ -162,14 +162,14 @@ $aquarium3->addFish($fancyGuppy, 3);
 $aquariums = array($aquarium1, $aquarium2, $aquarium3);
 
 #2nd task: Digital advisor that tells if fish can live together
-var_dump($angelfish->canLiveTogether($fancyGuppy));
-var_dump($angelfish->canLiveTogether($jewelCichlid));
-var_dump($lionheadCichlid->canLiveTogether($cherryBarb));
+$angelfish->canLiveTogether($fancyGuppy);
+$angelfish->canLiveTogether($jewelCichlid);
+$lionheadCichlid->canLiveTogether($cherryBarb);
 
 #3rd task: Sale prizes of aquariums
-var_dump($aquarium1->getSalePrice());
-var_dump($aquarium2->getSalePrice());
-var_dump($aquarium3->getSalePrice());
+$aquarium1->getSalePrice();
+$aquarium2->getSalePrice();
+$aquarium3->getSalePrice();
 
 #4th task: Adding random gadgets
 $measuringCup = new WaterMeasuringGadget('Measuring cup');
@@ -183,5 +183,9 @@ $aquarium2->addGadget($gadgets[rand(0, count($gadgets)-1)]);
 $aquarium3->addGadget($gadgets[rand(0, count($gadgets)-1)]);
 
 #5th task: JSON to list all fish types and aquariums with fish and prices
-echo json_encode($fishTypes);
-echo json_encode($aquariums);
+$return_array = array(
+    'fishTypes' => $fishTypes,
+    'aquariums' => $aquariums,
+);
+
+echo json_encode($return_array);
