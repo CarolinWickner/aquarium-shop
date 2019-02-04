@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-class FishType {
+class FishType implements JsonSerializable {
     private $name;
 
     private $character;
@@ -34,16 +34,16 @@ class FishType {
         }
         return false;
     }
+
+    public function jsonSerialize() {
+        $json = array (
+            'name' => $this->name,
+        );
+        return $json;
+    }
 }
 
-$angelfish = new FishType('Angelfish', 'peaceful', 6.5, 7.1, 5);
-$fancyGuppy = new FishType('Fancy Guppy', 'peaceful', 6.8, 7.8, 3);
-$jewelCichlid = new FishType('Jewel Cichlid', 'aggressive', 6.5, 7.5, 7.5);
-$kribensis = new FishType('Kribensis', 'aggressive', 6, 8, 8);
-$lionheadCichlid = new FishType('Lionhead Cichlid', 'aggressive', 6.6, 8, 7.5);
-$cherryBarb = new FishType('Cherry Barb', 'aggressive', 6, 6.5, 10);
-
-class FishInAquarium {
+class FishInAquarium implements JsonSerializable {
     private $fishType;
 
     private $amount;
@@ -59,6 +59,14 @@ class FishInAquarium {
 
     public function getFishType() : FishType {
         return $this->fishType;
+    }
+
+    public function jsonSerialize() {
+        $json = array (
+            'fishType' => $this->fishType,
+            'amount' => $this->amount,
+        );
+        return $json;
     }
 }
 
@@ -79,13 +87,7 @@ class WaterExchangeGadget extends Gadget {
 class WaterAbsorbGadget extends Gadget {
 }
 
-$measuringCup = new WaterMeasuringGadget('Measuring cup');
-$lengthOfVinylTubing =  new WaterExchangeGadget('Length of vinyl tubing');
-$chamois = new WaterAbsorbGadget('Chamois');
-
-$gadgets = array($measuringCup, $lengthOfVinylTubing, $chamois);
-
-class Aquarium {
+class Aquarium implements JsonSerializable {
     private $capacity;
 
     private $cost;
@@ -126,29 +128,60 @@ class Aquarium {
         $salePrice = ceil($price / 10) * 10 - 0.01;
         return $salePrice;
     }
+
+    public function jsonSerialize() {
+        $json = array (
+            'fishInAquarium' => $this->fishInAquarium,
+            'salePrize' => $this->getSalePrice(),
+        );
+        return $json;
+    }
 }
+
+#1st Task: Preconfigured aquarium with fish
+$angelfish = new FishType('Angelfish', 'peaceful', 6.5, 7.1, 5);
+$fancyGuppy = new FishType('Fancy Guppy', 'peaceful', 6.8, 7.8, 3);
+$jewelCichlid = new FishType('Jewel Cichlid', 'aggressive', 6.5, 7.5, 7.5);
+$kribensis = new FishType('Kribensis', 'aggressive', 6, 8, 8);
+$lionheadCichlid = new FishType('Lionhead Cichlid', 'aggressive', 6.6, 8, 7.5);
+$cherryBarb = new FishType('Cherry Barb', 'aggressive', 6, 6.5, 10);
+
+$fishTypes = array ($angelfish, $fancyGuppy, $jewelCichlid, $kribensis, $lionheadCichlid, $cherryBarb);
 
 $aquarium1 = new Aquarium(100, 400);
 $aquarium1->addFish($angelfish, 10);
-$aquarium1->addGadget($gadgets[rand(0, sizeOf($gadgets)-1)]);
-var_dump($aquarium1);
 
 $aquarium2 = new Aquarium(60, 250);
 $aquarium2->addFish($jewelCichlid, 5);
 $aquarium2->addFish($kribensis, 10);
 $aquarium2->addFish($lionheadCichlid, 2);
-$aquarium2->addGadget($gadgets[rand(0, sizeOf($gadgets)-1)]);
-var_dump($aquarium2);
 
 $aquarium3 = new Aquarium(25, 90);
 $aquarium3->addFish($fancyGuppy, 3);
-$aquarium3->addGadget($gadgets[rand(0, sizeOf($gadgets)-1)]);
-var_dump($aquarium3);
 
+$aquariums = array($aquarium1, $aquarium2, $aquarium3);
+
+#2nd task: Digital advisor that tells if fish can live together
 var_dump($angelfish->canLiveTogether($fancyGuppy));
 var_dump($angelfish->canLiveTogether($jewelCichlid));
 var_dump($lionheadCichlid->canLiveTogether($cherryBarb));
 
+#3rd task: Sale prizes of aquariums
 var_dump($aquarium1->getSalePrice());
 var_dump($aquarium2->getSalePrice());
 var_dump($aquarium3->getSalePrice());
+
+#4th task: Adding random gadgets
+$measuringCup = new WaterMeasuringGadget('Measuring cup');
+$lengthOfVinylTubing =  new WaterExchangeGadget('Length of vinyl tubing');
+$chamois = new WaterAbsorbGadget('Chamois');
+
+$gadgets = array($measuringCup, $lengthOfVinylTubing, $chamois);
+
+$aquarium1->addGadget($gadgets[rand(0, count($gadgets)-1)]);
+$aquarium2->addGadget($gadgets[rand(0, count($gadgets)-1)]);
+$aquarium3->addGadget($gadgets[rand(0, count($gadgets)-1)]);
+
+#5th task: JSON to list all fish types and aquariums with fish and prices
+echo json_encode($fishTypes);
+echo json_encode($aquariums);
