@@ -20,7 +20,7 @@ class FishType implements JsonSerializable {
         $this->cost = $cost;
     }
 
-    public function getCost() : float{
+    public function getCost() : float {
         return $this->cost;
     }
 
@@ -53,7 +53,7 @@ class FishInAquarium implements JsonSerializable {
         $this->amount = $amount;
     }
 
-    public function getAmount() : int{
+    public function getAmount() : int {
         return $this->amount;
     }
 
