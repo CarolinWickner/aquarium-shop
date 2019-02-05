@@ -6,17 +6,14 @@ class FishType implements JsonSerializable {
 
     private $character;
 
-    private $phMin;
-
-    private $phMax;
+    private $phRange;
 
     private $cost;
 
-    public function __construct(string $name, string $character, float $phMin, float $phMax, float $cost) {
+    public function __construct(string $name, string $character, array $phRange, float $cost) {
         $this->name = $name;
         $this->character = $character;
-        $this->phMin = $phMin;
-        $this->phMax = $phMax;
+        $this->phRange = $phRange;
         $this->cost = $cost;
     }
 
@@ -25,20 +22,18 @@ class FishType implements JsonSerializable {
     }
 
     public function canLiveTogether(FishType $fishType) : bool {
-        $phRange1 = range($this->phMin, $this->phMax, $step = 0.1);
-        $phRange2 = range($fishType->phMin, $fishType->phMax, $step =0.1);
-        $overlapCount = count(array_intersect($phRange1, $phRange2));
+        $overlapCount = count(array_intersect($this->phRange, $fishType->phRange));
 
-        if (($overlapCount > 0) && ($this->character == $fishType->character)) {
+        if (($overlapCount > 0) && ($this->character === $fishType->character)) {
             return true;
         }
         return false;
     }
 
     public function jsonSerialize() {
-        $json = array (
+        $json = [
             'name' => $this->name,
-        );
+        ];
         return $json;
     }
 }
@@ -62,15 +57,15 @@ class FishInAquarium implements JsonSerializable {
     }
 
     public function jsonSerialize() {
-        $json = array (
+        $json = [
             'fishType' => $this->fishType,
             'amount' => $this->amount,
-        );
+        ];
         return $json;
     }
 }
 
-class Gadget {
+abstract class Gadget {
     private $name;
 
     public function __construct(string $name) {
@@ -130,21 +125,21 @@ class Aquarium implements JsonSerializable {
     }
 
     public function jsonSerialize() {
-        $json = array (
+        $json = [
             'fishInAquarium' => $this->fishInAquarium,
             'salePrize' => $this->getSalePrice(),
-        );
+        ];
         return $json;
     }
 }
 
 #1st task: Preconfigured aquarium with fish
-$angelfish = new FishType('Angelfish', 'peaceful', 6.5, 7.1, 5);
-$fancyGuppy = new FishType('Fancy Guppy', 'peaceful', 6.8, 7.8, 3);
-$jewelCichlid = new FishType('Jewel Cichlid', 'aggressive', 6.5, 7.5, 7.5);
-$kribensis = new FishType('Kribensis', 'aggressive', 6, 8, 8);
-$lionheadCichlid = new FishType('Lionhead Cichlid', 'aggressive', 6.6, 8, 7.5);
-$cherryBarb = new FishType('Cherry Barb', 'aggressive', 6, 6.5, 10);
+$angelfish = new FishType('Angelfish', 'peaceful', range(6.5, 7.1, 0.1), 5);
+$fancyGuppy = new FishType('Fancy Guppy', 'peaceful', range(6.8, 7.8, 0.1), 3);
+$jewelCichlid = new FishType('Jewel Cichlid', 'aggressive', range(6.5, 7.5, 0.1), 7.5);
+$kribensis = new FishType('Kribensis', 'aggressive', range(6, 8, 0.1), 8);
+$lionheadCichlid = new FishType('Lionhead Cichlid', 'aggressive', range(6.6, 8, 0.1), 7.5);
+$cherryBarb = new FishType('Cherry Barb', 'aggressive', range(6, 6.5, 0.1), 10);
 
 $fishTypes = array ($angelfish, $fancyGuppy, $jewelCichlid, $kribensis, $lionheadCichlid, $cherryBarb);
 
