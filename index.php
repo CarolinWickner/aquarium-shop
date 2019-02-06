@@ -1,149 +1,15 @@
 <?php
 declare(strict_types=1);
 
-class FishType implements JsonSerializable {
-    private $name;
+require_once './vendor/autoload.php';
 
-    private $character;
-
-    private $phRange;
-
-    private $cost;
-
-    public function __construct(string $name, string $character, FloatRange $phRange, float $cost) {
-        $this->name = $name;
-        $this->character = $character;
-        $this->phRange = $phRange;
-        $this->cost = $cost;
-    }
-
-    public function getCost() : float {
-        return $this->cost;
-    }
-
-    public function canLiveTogether(FishType $fishType) : bool {
-        $result = $this->phRange->intersectsWith($fishType->phRange) && ($this->character === $fishType->character);
-        return $result;
-    }
-
-    public function jsonSerialize() {
-        $json = [
-            'name' => $this->name,
-        ];
-        return $json;
-    }
-}
-
-class FloatRange {
-    private $minValue;
-
-    private $maxValue;
-
-    public function __construct(float $minValue, float $maxValue) {
-        $this->minValue = $minValue;
-        $this->maxValue = $maxValue;
-    }
-
-    public function intersectsWith(FloatRange $otherRange) {
-        $result = ($this->maxValue < $otherRange->minValue) || ($otherRange->maxValue < $this->minValue);
-        return !$result;
-    }
-}
-
-class FishInAquarium implements JsonSerializable {
-    private $fishType;
-
-    private $amount;
-
-    public function __construct(FishType $fishType, int $amount) {
-        $this->fishType = $fishType;
-        $this->amount = $amount;
-    }
-
-    public function getAmount() : int {
-        return $this->amount;
-    }
-
-    public function getFishType() : FishType {
-        return $this->fishType;
-    }
-
-    public function jsonSerialize() {
-        $json = [
-            'fishType' => $this->fishType,
-            'amount' => $this->amount,
-        ];
-        return $json;
-    }
-}
-
-abstract class Gadget {
-    private $name;
-
-    public function __construct(string $name) {
-        $this->name = $name;
-    }
-}
-
-class WaterMeasuringGadget extends Gadget {
-}
-
-class WaterExchangeGadget extends Gadget {
-}
-
-class WaterAbsorbGadget extends Gadget {
-}
-
-class Aquarium implements JsonSerializable {
-    private $capacity;
-
-    private $cost;
-
-    /**
-    * @var FishInAquarium[]
-    */
-    private $fishInAquarium;
-
-    /**
-    * @var Gadget[]
-    */
-    private $gadgets;
-
-    public function __construct(int $capacity, float $cost) {
-        $this->capacity = $capacity;
-        $this->cost = $cost;
-        $this->fishInAquarium = array();
-        $this->gadgets = array();
-    }
-
-    public function addFish(FishType $fishType, int $amount) : void {
-        $this->fishInAquarium[] = new FishInAquarium($fishType, $amount);
-    }
-
-    public function addGadget(Gadget $gadget) : void {
-        $this->gadgets[] = $gadget;
-    }
-
-    public function getSalePrice() : float {
-        $costOfAquarium = $this->cost;
-        $totalCostOfFish = 0;
-        foreach($this->fishInAquarium as $singleFishType) {
-            $totalCostOfFish += $singleFishType->getFishType()->getCost() * $singleFishType->getAmount();
-        }
-
-        $price = ($totalCostOfFish * 1.5) + ($costOfAquarium * 1.3);
-        $salePrice = ceil($price / 10) * 10 - 0.01;
-        return $salePrice;
-    }
-
-    public function jsonSerialize() {
-        $json = [
-            'fishInAquarium' => $this->fishInAquarium,
-            'salePrize' => $this->getSalePrice(),
-        ];
-        return $json;
-    }
-}
+use App\FishType;
+use App\FloatRange;
+use App\FishInAquarium;
+use App\WaterMeasuringGadget;
+use App\WaterExchangeGadget;
+use App\WaterAbsorbGadget;
+use App\Aquarium;
 
 #1st task: Preconfigured aquarium with fish
 $angelfish = new FishType('Angelfish', 'peaceful', new FloatRange(6.5, 7.1), 5);
