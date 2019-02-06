@@ -13,7 +13,7 @@ class FloatRange {
         $this->maxValue = $maxValue;
     }
 
-    public function intersectsWith(FloatRange $otherRange) {
+    public function intersectsWith(FloatRange $otherRange) : bool {
         $result = ($this->maxValue < $otherRange->minValue) || ($otherRange->maxValue < $this->minValue);
         return !$result;
     }
