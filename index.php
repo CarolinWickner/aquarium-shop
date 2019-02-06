@@ -10,7 +10,7 @@ class FishType implements JsonSerializable {
 
     private $cost;
 
-    public function __construct(string $name, string $character, array $phRange, float $cost) {
+    public function __construct(string $name, string $character, FloatRange $phRange, float $cost) {
         $this->name = $name;
         $this->character = $character;
         $this->phRange = $phRange;
@@ -22,12 +22,8 @@ class FishType implements JsonSerializable {
     }
 
     public function canLiveTogether(FishType $fishType) : bool {
-        $overlapCount = count(array_intersect($this->phRange, $fishType->phRange));
-
-        if (($overlapCount > 0) && ($this->character === $fishType->character)) {
-            return true;
-        }
-        return false;
+        $result = $this->phRange->intersectsWith($fishType->phRange) && ($this->character === $fishType->character);
+        return $result;
     }
 
     public function jsonSerialize() {
@@ -35,6 +31,22 @@ class FishType implements JsonSerializable {
             'name' => $this->name,
         ];
         return $json;
+    }
+}
+
+class FloatRange {
+    private $minValue;
+
+    private $maxValue;
+
+    public function __construct(float $minValue, float $maxValue) {
+        $this->minValue = $minValue;
+        $this->maxValue = $maxValue;
+    }
+
+    public function intersectsWith(FloatRange $otherRange) {
+        $result = ($this->maxValue < $otherRange->minValue) || ($otherRange->maxValue < $this->minValue);
+        return !$result;
     }
 }
 
@@ -134,12 +146,12 @@ class Aquarium implements JsonSerializable {
 }
 
 #1st task: Preconfigured aquarium with fish
-$angelfish = new FishType('Angelfish', 'peaceful', range(6.5, 7.1, 0.1), 5);
-$fancyGuppy = new FishType('Fancy Guppy', 'peaceful', range(6.8, 7.8, 0.1), 3);
-$jewelCichlid = new FishType('Jewel Cichlid', 'aggressive', range(6.5, 7.5, 0.1), 7.5);
-$kribensis = new FishType('Kribensis', 'aggressive', range(6, 8, 0.1), 8);
-$lionheadCichlid = new FishType('Lionhead Cichlid', 'aggressive', range(6.6, 8, 0.1), 7.5);
-$cherryBarb = new FishType('Cherry Barb', 'aggressive', range(6, 6.5, 0.1), 10);
+$angelfish = new FishType('Angelfish', 'peaceful', new FloatRange(6.5, 7.1), 5);
+$fancyGuppy = new FishType('Fancy Guppy', 'peaceful', new FloatRange(6.8, 7.8), 3);
+$jewelCichlid = new FishType('Jewel Cichlid', 'aggressive', new FloatRange(6.5, 7.5), 7.5);
+$kribensis = new FishType('Kribensis', 'aggressive', new FloatRange(6, 8), 8);
+$lionheadCichlid = new FishType('Lionhead Cichlid', 'aggressive', new FloatRange(6.6, 8), 7.5);
+$cherryBarb = new FishType('Cherry Barb', 'aggressive', new FloatRange(6, 6.5), 10);
 
 $fishTypes = array ($angelfish, $fancyGuppy, $jewelCichlid, $kribensis, $lionheadCichlid, $cherryBarb);
 
@@ -183,4 +195,5 @@ $return_array = array(
     'aquariums' => $aquariums,
 );
 
+header('Content-Type: application/json');
 echo json_encode($return_array);
