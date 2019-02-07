@@ -6,9 +6,9 @@ require_once './vendor/autoload.php';
 use App\FishType;
 use App\FloatRange;
 use App\FishInAquarium;
-use App\WaterMeasuringGadget;
-use App\WaterExchangeGadget;
-use App\WaterAbsorbGadget;
+use App\Gadget\WaterMeasuringGadget;
+use App\Gadget\WaterExchangeGadget;
+use App\Gadget\WaterAbsorbGadget;
 use App\Aquarium;
 
 #1st task: Preconfigured aquarium with fish

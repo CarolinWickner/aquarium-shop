@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App;
+namespace App\Gadget;
 
 abstract class Gadget {
     private $name;
