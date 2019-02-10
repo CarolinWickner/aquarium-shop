@@ -27,7 +27,16 @@ class Aquarium implements \JsonSerializable {
         $this->gadgets = array();
     }
 
+    public function getFishInAquarium() : array {
+        return $this->fishInAquarium; 
+    }
+
     public function addFish(FishType $fishType, int $amount) : void {
+        foreach($this->fishInAquarium as $existingFishInAquarium) {
+            if (!$fishType->canLiveTogether($existingFishInAquarium->getFishType())) {
+                throw new \InvalidArgumentException('Fish type cannot live in this aquarium.');
+            }
+        }
         $this->fishInAquarium[] = new FishInAquarium($fishType, $amount);
     }
 
@@ -50,7 +59,7 @@ class Aquarium implements \JsonSerializable {
     public function jsonSerialize() {
         $json = [
             'fishInAquarium' => $this->fishInAquarium,
-            'salePrize' => $this->getSalePrice(),
+            'salePrice' => $this->getSalePrice(),
         ];
         return $json;
     }
