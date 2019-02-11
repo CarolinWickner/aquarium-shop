@@ -30,7 +30,7 @@ class AquariumTest extends TestCase
         $aquarium->addFish($this->compatibleFishType, 1);
         $aquarium->addFish($this->compatibleFishType, 2);
 
-        // TODO: assert that the aquarium now contains all the added fish
+        // assert that the aquarium now contains all the added fish
         $this->assertEquals(2, count($aquarium->getFishInAquarium()));
     }
 }
