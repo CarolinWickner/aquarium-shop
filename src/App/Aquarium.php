@@ -23,8 +23,8 @@ class Aquarium implements \JsonSerializable {
     public function __construct(int $capacity, float $cost) {
         $this->capacity = $capacity;
         $this->cost = $cost;
-        $this->fishInAquarium = array();
-        $this->gadgets = array();
+        $this->fishInAquarium = [];
+        $this->gadgets = [];
     }
 
     public function getFishInAquarium() : array {
