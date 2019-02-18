@@ -14,6 +14,7 @@ class AquariumTest extends TestCase
         $this->uncompatibleFishType->method('canLiveTogether')->willReturn(false);
     }
 
+    /** @test */
     public function testExceptionWhenAddingUncompatibleFish()
     {
         $aquarium = new Aquarium(100, 500);
@@ -24,6 +25,7 @@ class AquariumTest extends TestCase
         $aquarium->addFish($this->uncompatibleFishType, 1);
     }
 
+    /** @test */
     public function testAddingCompatibleFish()
     {
         $aquarium = new Aquarium(100, 500);
