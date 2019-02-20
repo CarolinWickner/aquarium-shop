@@ -1,19 +1,14 @@
 # aquarium-shop
 
-## Tasks
+## Coding exercises
 
-- 1st task: Preconfigured aquarium with fish.
-- 2nd task: Digital advisor that tells if fish can live together.
-- 3rd task: Sale prizes of preconfigured aquariums.
-- 4th task: Adding random gadgets.
-- 5th task: Return JSON that lists all aquariums with fish and prices.
+- 1st task: Preconfigured aquarium with fish. :white_check_mark:
+- 2nd task: Digital advisor that tells if fish can live together. :white_check_mark:
+- 3rd task: Sale prizes of preconfigured aquariums. :white_check_mark:
+- 4th task: Adding random gadgets. :white_check_mark:
+- 5th task: Return JSON that lists all aquariums with fish and prices. :white_check_mark:
 
-## Next
-- introduce composer autoloader and move classes to namespaces
-´´´
-src/
-   Aquarium/...
-test/
-   Aquarium/...Test.php
-´´´
-- write unit tests in phpunit
+## Further steps
+- Introduce composer autoloader and move classes to namespaces. :white_check_mark:
+- Write unit tests in phpunit. :white_check_mark:
+- Start a new symfony project and move aquarium-shop to DIC.
