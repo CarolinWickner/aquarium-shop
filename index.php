@@ -6,9 +6,9 @@ require_once './vendor/autoload.php';
 use App\FishType;
 use App\FloatRange;
 use App\FishInAquarium;
-use App\WaterMeasuringGadget;
-use App\WaterExchangeGadget;
-use App\WaterAbsorbGadget;
+use App\Gadget\WaterMeasuringGadget;
+use App\Gadget\WaterExchangeGadget;
+use App\Gadget\WaterAbsorbGadget;
 use App\Aquarium;
 
 #1st task: Preconfigured aquarium with fish
@@ -56,10 +56,10 @@ $aquarium2->addGadget($gadgets[rand(0, count($gadgets)-1)]);
 $aquarium3->addGadget($gadgets[rand(0, count($gadgets)-1)]);
 
 #5th task: JSON to list all fish types and aquariums with fish and prices
-$return_array = array(
+$return_array = [
     'fishTypes' => $fishTypes,
     'aquariums' => $aquariums,
-);
+];
 
 header('Content-Type: application/json');
 echo json_encode($return_array);

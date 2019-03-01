@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Gadget\Gadget;
+
 class Aquarium implements \JsonSerializable {
     private $capacity;
 
@@ -21,11 +23,20 @@ class Aquarium implements \JsonSerializable {
     public function __construct(int $capacity, float $cost) {
         $this->capacity = $capacity;
         $this->cost = $cost;
-        $this->fishInAquarium = array();
-        $this->gadgets = array();
+        $this->fishInAquarium = [];
+        $this->gadgets = [];
+    }
+
+    public function getFishInAquarium() : array {
+        return $this->fishInAquarium; 
     }
 
     public function addFish(FishType $fishType, int $amount) : void {
+        foreach($this->fishInAquarium as $existingFishInAquarium) {
+            if (!$fishType->canLiveTogether($existingFishInAquarium->getFishType())) {
+                throw new \InvalidArgumentException('Fish type cannot live in this aquarium.');
+            }
+        }
         $this->fishInAquarium[] = new FishInAquarium($fishType, $amount);
     }
 
@@ -48,7 +59,7 @@ class Aquarium implements \JsonSerializable {
     public function jsonSerialize() {
         $json = [
             'fishInAquarium' => $this->fishInAquarium,
-            'salePrize' => $this->getSalePrice(),
+            'salePrice' => $this->getSalePrice(),
         ];
         return $json;
     }
