@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Gadget\Gadget;
 
-use App\Gadget\Gadget;
-
 class Aquarium implements \JsonSerializable {
     private $capacity;
 
