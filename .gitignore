@@ -17,3 +17,4 @@
 /web/bundles/
 .DS_Store
 /src/AppBundle/storage.json
+.phpunit.result.cache
