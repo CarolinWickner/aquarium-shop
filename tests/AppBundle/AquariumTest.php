@@ -1,5 +1,11 @@
 <?php
-namespace App;
+declare(strict_types=1);
+
+namespace AppBundle;
+
+use AppBundle\Entity\Aquarium;
+use AppBundle\Entity\FishInAquarium;
+use AppBundle\Entity\FishType;
 use PHPUnit\Framework\TestCase;
 
 class AquariumTest extends TestCase

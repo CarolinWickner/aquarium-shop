@@ -1,5 +1,9 @@
 <?php
-namespace App;
+declare(strict_types=1);
+
+namespace AppBundle;
+
+use AppBundle\Entity\FloatRange;
 use PHPUnit\Framework\TestCase;
 
 class FloatRangeTest extends TestCase
