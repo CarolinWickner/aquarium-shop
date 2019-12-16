@@ -1,4 +1,7 @@
-# aquarium-shop
+aquarium-shop
+=============
+
+A Symfony project created on February 21, 2019, 12:22 pm.
 
 ## Coding exercises
 
@@ -11,4 +14,4 @@
 ## Further steps
 - Introduce composer autoloader and move classes to namespaces. :white_check_mark:
 - Write unit tests in phpunit. :white_check_mark:
-- Start a new symfony project and move aquarium-shop to DIC.
+- Start a new symfony project and move aquarium-shop to DIC :white_check_mark:
